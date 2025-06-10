@@ -8,6 +8,6 @@ Thanks Fintech Student team from UEF (University of Economics and Finance) for p
 
 ...
 
-## Modeling
+## LSTM with masked attention + finBERT
 
 The model is the combination of LSTM for learning sequential feature, Masked Self-Attention with Q,K,V = lstm_output and news sentiment (Extract by FinBERT model). This Deep learning model pipeline wiil learn both feature from stock time series & news 
