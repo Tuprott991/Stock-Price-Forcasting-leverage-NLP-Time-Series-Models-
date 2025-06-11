@@ -1,5 +1,7 @@
 # Stock-Price-Forcasting-leverage-NLP-Time-Series-Models
 
+![LSTM with Attention](LSTM+Attention.png)
+
 This project explores whether combining historical stock data with financial news sentiment can improve stock price predictions. Most forecasting models focus only on past trends, but this project looks at how market sentiment captured from news might impact predictions.
 
 Thanks Fintech Student team from UEF (University of Economics and Finance) for providing a robust & quality dataset (Stock data + News sentiment)
