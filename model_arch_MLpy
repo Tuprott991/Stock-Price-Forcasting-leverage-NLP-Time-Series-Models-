@@ -1,0 +1,38 @@
+import lightgbm as lgb
+from xgboost import XGBRegressor
+from sklearn.linear_model import Ridge
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
+import numpy as np
+
+X_stock = np.random.rand(1000, 10)  # Vd data giá cổ phiếu
+X_news = np.random.rand(1000, 5)  # Vd data tin tức
+y = np.random.rand(1000)  # Vd giá mục tiêu - Chắc là để giá [Close]
+
+X_stock_train, X_stock_test, X_news_train, X_news_test, y_train, y_test = train_test_split(
+    X_stock, X_news, y, test_size=0.2, random_state=42)
+
+model_stock = XGBRegressor(n_estimators=100, learning_rate=0.05, max_depth=4, random_state=42)
+model_news = lgb.LGBMRegressor(n_estimators=100, learning_rate=0.05, max_depth=4, random_state=42)
+
+
+model_stock.fit(X_stock_train, y_train)
+model_news.fit(X_news_train, y_train)
+
+# Output trung gian
+stock_pred = model_stock.predict(X_stock_train).reshape(-1, 1)
+news_pred = model_news.predict(X_news_train).reshape(-1, 1)
+
+fused_train = np.concatenate([stock_pred, news_pred], axis=1)
+
+meta_model = Ridge()
+meta_model.fit(fused_train, y_train)
+
+stock_pred_test = model_stock.predict(X_stock_test).reshape(-1, 1)
+news_pred_test = model_news.predict(X_news_test).reshape(-1, 1)
+fused_test = np.concatenate([stock_pred_test, news_pred_test], axis=1)
+
+final_pred = meta_model.predict(fused_test)
+mse = mean_squared_error(y_test, final_pred)
+
+print("Final MSE:", mse)
